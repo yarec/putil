@@ -1,0 +1,27 @@
+{
+    "name": "yarec/putil",
+    "version": "1.1.7",
+    "type": "library",
+    "description": "Simple, elegant, stand-alone validation library with NO dependencies",
+    "keywords": ["utils", "yii" ],
+    "homepage": "http://github.com/yarec/putil",
+    "license" : "BSD",
+    "authors" : [
+        {
+            "name": "yarec",
+            "email": "rwtest@gmail.com",
+            "homepage": "http://www.softidy.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    },
+    "autoload": {
+        "psr-0": {
+            "PUtil": "src/"
+        }
+    }
+}
