@@ -10,7 +10,7 @@ trait YiiUtils {
 	public static function sendJSON($result){
         #$t = Yii::app()->common->get_total_millisecond();
 		if(!is_string($result)){
-			$content = CJSON::encode($result);
+			$content = \CJSON::encode($result);
 		}else{
 			$content = $result;
 		}
@@ -23,22 +23,26 @@ trait YiiUtils {
 		#header('content-length:'.mb_strlen($content));
 		echo $content;
         #$t = Yii::app()->common->outout_time_delta($t, 'sendJSON');
-		Yii::app()->end();
+		\Yii::app()->end();
+        #die;
 	}
     public static function error($m){
-        Yii::log($m, 'error');
+        \Yii::log($m, 'error');
     }
     public static function info($m){
-        Yii::log($m, 'error');
+        \Yii::log($m, 'error');
     }
     public static function succ($arr=[]){
         $ret =  array('succ'=>1,'errormsg'=>'','errorfield'=>'');
         self::sendJSON($ret);
     }
-    public static function fail($arr){
-        $keys = array_keys($arr);
-        $key = $keys[0];
-        $msg = $arr[$key][0];
+    public static function fail($arr=[]){
+        $key = $msg = '';
+        if(count($arr)>0){
+            $keys = array_keys($arr);
+            $key = $keys[0];
+            $msg = $arr[$key][0];
+        }
         $ret =  array('succ'=>0,'errormsg'=>$msg,'errorfield'=>$key);
         self::sendJSON($ret);
     }
