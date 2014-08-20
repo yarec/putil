@@ -33,7 +33,7 @@ trait YiiUtils {
         \Yii::log($m, 'error');
     }
     public static function succ($arr=[]){
-        $ret =  array('succ'=>1,'errormsg'=>'','errorfield'=>'');
+        $ret =  array('succ'=>1,'errormsg'=>'','errorfield'=>'', 'data'=>$arr);
         self::sendJSON($ret);
     }
     public static function fail($arr=[]){
