@@ -32,19 +32,27 @@ trait YiiUtils {
     public static function info($m){
         \Yii::log($m, 'error');
     }
-    public static function succ($arr=[]){
-        $ret =  array('succ'=>1,'errormsg'=>'','errorfield'=>'', 'data'=>$arr);
+    public static function succ($arr=[], $status_name='succ', $succ_val = 1){
+        $ret =  array($status_name=>$succ_val,'errormsg'=>'','errorfield'=>'', 'data'=>$arr);
         self::sendJSON($ret);
     }
-    public static function fail($arr=[]){
+    public static function fail($arr=[], $status_name='succ', $err_code = 0){
         $key = $msg = '';
         if(count($arr)>0){
             $keys = array_keys($arr);
             $key = $keys[0];
             $msg = $arr[$key][0];
         }
-        $ret =  array('succ'=>0,'errormsg'=>$msg,'errorfield'=>$key);
+        $ret =  array($status_name=>$err_code,'errormsg'=>$msg,'errorfield'=>$key);
         self::sendJSON($ret);
+    }
+    public static function code($arr=[], $code=0){
+        if($code==0){
+            self::succ($arr, 'code', 0);
+        }
+        else{
+            self::fail($arr, 'code', $err_code);
+        }
     }
 }
 
