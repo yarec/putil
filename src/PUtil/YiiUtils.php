@@ -32,11 +32,29 @@ trait YiiUtils {
     public static function info($m){
         \Yii::log($m, 'error');
     }
-    public static function succ($arr=[], $status_name='succ', $succ_val = 1){
-        $ret =  array($status_name=>$succ_val,'errormsg'=>'','errorfield'=>'', 'data'=>$arr);
+    public static function succ($arr=array(), $status_name='succ', $succ_val = 1){
+        $data=$arr;
+        $total_page = 0;
+        $cur_page = 1;
+        $count = 0;
+        $ret =  array($status_name=>$succ_val,'errormsg'=>'','errorfield'=>'');
+        if(isset($arr['data'])){
+            $data = $arr['data'];
+        }
+        if(isset($arr['total_page'])){
+            $ret['total_page'] = $arr['total_page'];
+        }
+        if(isset($arr['cur_page'])){
+            $ret['cur_page'] = $arr['cur_page'];
+        }
+        if(isset($arr['count'])){
+            $ret['count'] = $arr['count'];
+        }
+        $ret['data'] = $data;
+
         self::sendJSON($ret);
     }
-    public static function fail($arr=[], $status_name='succ', $err_code = 0){
+    public static function fail($arr=array(), $status_name='succ', $err_code = 0){
         $key = $msg = '';
         if(count($arr)>0){
             $keys = array_keys($arr);
@@ -46,7 +64,7 @@ trait YiiUtils {
         $ret =  array($status_name=>$err_code,'errormsg'=>$msg,'errorfield'=>$key);
         self::sendJSON($ret);
     }
-    public static function code($arr=[], $code=0){
+    public static function code($arr=array(), $code=0){
         if($code==0){
             self::succ($arr, 'code', 0);
         }
