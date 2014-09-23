@@ -189,7 +189,7 @@ trait YiiUtils {
             self::succ($arr, 'code', 0);
         }
         else{
-            self::fail($arr, 'code', $err_code);
+            self::fail($arr, 'code', $code);
         }
     }
 
