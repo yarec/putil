@@ -287,44 +287,60 @@ trait YiiUtils {
         $rand = rand(0,100);
         return ($pre.$sec.substr($usec,2,6));
     }
-}
 
-trait HelloWorld {
-    public function sayHello() {
-        echo "Hello World! </br>\n";
+    public static function randstr($cnt=6){
+        return substr( md5(rand()), 0, $cnt);
+    }
+
+    /**
+     * 发送邮件
+     *
+     * add the conf to main.php -> params
+     *  'email'=>array(
+     *      'host' => 'smtp.163.com',
+     *      'port' => 25,
+     *      'account' => 'rong800test@163.com',
+     *      'password' => ''
+     *  ),
+     *
+     */
+    public function sendMail($to,$subject,$content,$fromName='',$toName='',$html=true) { 
+        $host = 'localhost';
+        $port = 25;
+        $account = '';
+        $password = '';
+
+        $email_conf = Yii::app()->params['email'];
+        if($email_conf){
+            $host = $email_conf['host'];
+            $port= $email_conf['port'];
+            $account= $email_conf['account'];
+            $password= $email_conf['password'];
+        }
+
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->Host = $host;
+        $mail->SMTPAuth = true;
+        $mail->Username = $account;
+        $mail->Password = $password;
+        $mail->Port = 25;        
+
+        $mail->From = $account;
+        $mail->FromName = $fromName;
+        $mail->addAddress($to, $toName);
+
+        $mail->WordWrap = 50;
+        $mail->isHTML($html);
+
+        $mail->Subject = $subject;
+        $mail->Body    = $content;
+        $mail->AltBody = $content;
+
+        if(!$mail->send()) {
+            return $mail->ErrorInfo;
+        } else {
+            return 0;
+        }
     }
 }
-
-class TheWorldIsNotEnough {
-    use HelloWorld;
-    public function say() {
-        $this->sayHello();
-        echo 'Hello Universe!';
-    }
-}
-
-
-class Person {
-    var $job = "person";
-    function show_job() {
-        echo "Hi, I work as a {$this->job}.";
-    }
-}
-
-class Bartender {
-    var $job = "bartender";
-    function show_job() {
-        echo "BARTENDER: ";
-        Person::show_job();
-    }
-}
-
-class Bartender1 {
-    var $job = "bartender1";
-    #mixin( "Person" );
-}
-
-/*
-$b = new Bartender;
-mixin( $b, "Person" );
-*/
