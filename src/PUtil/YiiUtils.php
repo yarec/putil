@@ -56,6 +56,28 @@ trait YiiUtils {
         $filterChain->run();  
     }
 
+    /**
+     *  self::get('type', -1);    
+     */
+    public static function get($key, $default=''){
+        if(isset($_GET[$key]) && !empty($_GET[$key])){
+            return $_GET[$key];
+        } else{
+            return $default;
+        }
+    }
+
+    /**
+     *  self::post('type', -1);    
+     */
+    public static function post($key, $default=''){
+        if(isset($_POST[$key]) && !empty($_POST[$key])){
+            return $_POST[$key];
+        } else{
+            return $default;
+        }
+    }
+
     public function getCountArray($count){
         $ret['cur_page'] = $this->page;
         $ret['total_page'] = ceil($count/$this->pagesize);
