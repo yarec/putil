@@ -314,6 +314,10 @@ trait YiiUtils {
         return substr( md5(rand()), 0, $cnt);
     }
 
+    public static function startWith($str, $s){
+        return strpos($str, $s) === 0;
+    }
+
     /**
      * 发送邮件
      *
