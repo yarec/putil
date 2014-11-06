@@ -215,6 +215,18 @@ trait YiiUtils {
         }
     }
 
+    /**
+     *  succ: ret($data)
+     *  fail: ret($data, $err_code)
+     */
+    public static function ret($arr=array(), $code=0){
+        if(!is_array($arr)){
+            $code = $arr;
+            $arr = array();
+        }
+        self::code($arr, $code);
+    }
+
 
     /**
      * ============================
