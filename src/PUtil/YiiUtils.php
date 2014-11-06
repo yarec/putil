@@ -218,16 +218,28 @@ trait YiiUtils {
     /**
      *  succ: ret($data)
      *  fail: ret($data, $err_code)
+     *  more ex: 
+     *       self::ret();
+     *       self::ret(1);
+     *       self::ret(1,'some error message');
+     *       self::ret(11,'some error message','errorfield');
+     *       self::ret(array('fwef'=>array('eeewf eofwoe fwoe')), 1);
      */
-    public static function ret($arr=array(), $code=0){
-        if(!is_array($arr)){
-            $code = $arr;
-            $arr = array();
+    public static function ret($arr=array(), $code=0, $field=''){
+        $a = $arr;
+        $c = $code;
+        if(is_numeric($arr)){
+            $c = $arr;
+            $a = array();
             if(is_array($code)){
-                $arr = $code;
+                $a = $code;
+            }
+            else{
+                $code = $code===0?'':$code;
+                $a = [$field=>[$code]];
             }
         }
-        self::code($arr, $code);
+        self::code($a, $c);
     }
 
 
