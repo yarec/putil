@@ -28,7 +28,7 @@ trait YiiUtils {
      * }  
      */
     public function filterInitdata($filterChain) {  
-        $baseurl = Yii::app()->getBaseUrl(true);
+        $baseurl = \Yii::app()->getBaseUrl(true);
         $this->aid= $this->action->id;
         $this->page= isset($_GET['page'])?$_GET['page']:1;
         $this->pagesize= isset($_GET['pagesize'])?$_GET['pagesize']:10;
@@ -232,7 +232,7 @@ trait YiiUtils {
      *               ->group('name, id')
      */
     public static function db($db='db', $sql=''){
-        return Yii::app()->$db->createCommand($sql);
+        return \Yii::app()->$db->createCommand($sql);
     }
     public static function sql($sql='', $db='db'){
         return self::db($db, $sql);
@@ -270,7 +270,7 @@ trait YiiUtils {
 	    }
 	    $result = curl_exec($ch);
 	    if(curl_errno($ch)){
-	        Yii::log(curl_error($ch).'==>'.var_export(curl_getinfo($ch),true),'error','curlContent');
+	        \Yii::log(curl_error($ch).'==>'.var_export(curl_getinfo($ch),true),'error','curlContent');
 	        return '';
 	    }
 	    curl_close($ch);
@@ -336,7 +336,7 @@ trait YiiUtils {
         $account = '';
         $password = '';
 
-        $email_conf = Yii::app()->params['email'];
+        $email_conf = \Yii::app()->params['email'];
         if($email_conf){
             $host = $email_conf['host'];
             $port= $email_conf['port'];
