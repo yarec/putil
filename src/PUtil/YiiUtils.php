@@ -223,6 +223,9 @@ trait YiiUtils {
         if(!is_array($arr)){
             $code = $arr;
             $arr = array();
+            if(is_array($code)){
+                $arr = $code;
+            }
         }
         self::code($arr, $code);
     }
