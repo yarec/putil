@@ -236,7 +236,7 @@ trait YiiUtils {
             }
             else{
                 $code = $code===0?'':$code;
-                $a = [$field=>[$code]];
+                $a = array($field=>array($code));
             }
         }
         self::code($a, $c);
