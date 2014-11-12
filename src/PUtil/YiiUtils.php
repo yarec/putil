@@ -341,6 +341,14 @@ trait YiiUtils {
         return substr( md5(rand()), 0, $cnt);
     }
 
+    public static function randnum($cnt=6){
+        $code = '';
+        for($i=0; $i<$cnt; $i++){
+            $code .= rand(0,9);
+        }
+        return $code;
+    }
+
     public static function startWith($str, $s){
         return strpos($str, $s) === 0;
     }
