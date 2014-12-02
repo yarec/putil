@@ -19,6 +19,23 @@ trait YiiUtils {
     public $input = null;
     public $data = null;
 
+
+//    $this->pubact_list = array('index','login','loginadmin');
+// 
+//    $u1 = $this->ck_auth($filterChain,'uid',0);
+//    if($u1){
+//        $filterChain->run();
+//    }
+//    else{
+//        $u2 = $this->ck_auth($filterChain,'adminlogin',0);
+//        if($u2){
+//            $filterChain->run();
+//        }
+//        else{
+//            self::ret(1,'auth error');
+//        }
+//    }
+
     public $uid;
     public $pubact_list = array('index');
     public function ck_auth($filterChain,$key='uid',$run=1){
