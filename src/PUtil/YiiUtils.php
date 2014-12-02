@@ -19,6 +19,30 @@ trait YiiUtils {
     public $input = null;
     public $data = null;
 
+    public $uid;
+    public $pubact_list = array('index');
+    public function ck_auth($filterChain,$key='uid',$run=1){
+        $uid = Yii::app()->session[$key];
+        if($uid) $this->uid = $uid;
+
+        if($this->uid || in_array($this->aid, $this->pubact_list) ){
+            if($run){
+                $filterChain->run();
+            }
+            else{
+                return 1;
+            }
+        }
+        else{
+            if($run){
+                self::ret(1,'auth error');
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
     /**
      * public function filters() {
      *     return array(  
