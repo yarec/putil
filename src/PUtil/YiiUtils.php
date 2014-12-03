@@ -37,7 +37,7 @@ trait YiiUtils {
 //    }
 
     public $uid;
-    public $pubact_list = array('index');
+    public $pubact_list = array('index','show');
     public function ck_auth($filterChain,$key='uid',$run=1){
         $uid = Yii::app()->session[$key];
         if($uid) $this->uid = $uid;
