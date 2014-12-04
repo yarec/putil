@@ -98,6 +98,13 @@ trait YiiUtils {
     }
 
     /**
+     * self::param('key');
+     */
+    public static function param($key){
+        return \Yii::app()->params[$key];
+    }
+
+    /**
      *  self::get('type', -1);    
      */
     public static function get($key, $default=''){
