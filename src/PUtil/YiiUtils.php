@@ -71,8 +71,11 @@ trait YiiUtils {
     public function filterInitdata($filterChain) {  
         $baseurl = \Yii::app()->getBaseUrl(true);
         $this->aid= $this->action->id;
-        $this->page= isset($_GET['page'])?$_GET['page']:1;
-        $this->pagesize= isset($_GET['pagesize'])?$_GET['pagesize']:10;
+        $page = self::req('page');
+        $pagesize = self::req('pagesize');
+        $this->aid= $this->action->id;
+        $this->page= $page?$page:1;
+        $this->pagesize= $pagesize?$pagesize:10;
         $this->offset = ($this->page-1)* $this->pagesize;
 
         if(!empty($_POST)){
@@ -102,6 +105,17 @@ trait YiiUtils {
      */
     public static function param($key){
         return \Yii::app()->params[$key];
+    }
+
+    /**
+     *  self::req('type', -1);
+     */
+    public static function req($key, $default=''){
+        $item = self::get($key, $default);
+        if(empty($item)){
+            $item = self::post($key, $default);
+        }
+        return $item;
     }
 
     /**
