@@ -418,6 +418,8 @@ trait YiiUtils {
     /**
      * 发送邮件
      *
+     * require: "phpmailer/phpmailer": "dev-master"
+     *
      * add the conf to main.php -> params
      *  'email'=>array(
      *      'host' => 'smtp.163.com',
@@ -441,7 +443,7 @@ trait YiiUtils {
             $password= $email_conf['password'];
         }
 
-        $mail = new PHPMailer;
+        $mail = new \PHPMailer;
         $mail->isSMTP();
         $mail->Host = $host;
         $mail->SMTPAuth = true;
