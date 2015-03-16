@@ -108,6 +108,14 @@ trait YiiUtils {
     }
 
     /**
+     * add the conf to main.php -> params
+     * 'testStatus' => 1,
+     */
+    public static function tSt(){
+        return self::param('testStatus');
+    }
+
+    /**
      *  self::req('type', -1);
      */
     public static function req($key, $default=''){
@@ -397,6 +405,28 @@ trait YiiUtils {
         list($usec, $sec) = explode(" ", microtime());
         $rand = rand(0,100);
         return ($pre.$sec.substr($usec,2,6));
+    }
+
+    public static function cguid(){
+        mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+        return strtoupper(md5(uniqid(rand(), true)));
+    }
+
+    public static function guid(){
+        if (function_exists('com_create_guid')){
+            return com_create_guid();
+        }else{
+            $charid = self::cguid();
+            $hyphen = chr(45);// "-"
+            $uuid = chr(123)// "{"
+                .substr($charid, 0, 8).$hyphen
+                .substr($charid, 8, 4).$hyphen
+                .substr($charid,12, 4).$hyphen
+                .substr($charid,16, 4).$hyphen
+                .substr($charid,20,12)
+                .chr(125);// "}"
+            return $uuid;
+        }
     }
 
     public static function randstr($cnt=6){
