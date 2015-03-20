@@ -220,6 +220,14 @@ trait YiiUtils {
 		if (isset($_GET['jsoncallback'])) {
 			$content = $_GET['jsoncallback'].'('.$content.')';
 		}
+
+        $acao = self::param('acao');
+        if($acao){
+            header("Access-Control-Allow-Origin: {$acao['acao']}");
+            header("Access-Control-Allow-Methods: {$acao['acam']}");
+            header("Access-Control-Allow-Headers: {$acao['acah']}");
+            header("Access-Control-Max-Age: {$acao['acma']}");
+        };
 	
 		header("Content-type: application/json");
 		#header('content-length:'.mb_strlen($content));
