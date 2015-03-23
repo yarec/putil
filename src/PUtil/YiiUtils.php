@@ -466,7 +466,7 @@ trait YiiUtils {
     }
 
     public static function captcha(){
-        $builder = new PCaptcha\CaptchaBuilder;
+        $builder = new \PCaptcha\CaptchaBuilder;
         $builder->build();
         self::session('phrase', $builder->getPhrase());
         #echo "<img src='{$builder->inline()}' />";
