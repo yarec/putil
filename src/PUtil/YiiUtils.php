@@ -108,6 +108,18 @@ trait YiiUtils {
     }
 
     /**
+     * self::session('key');
+     */
+    public static function session($key, $val=''){
+        if($val){
+            \Yii::app()->session[$key] = $val;
+        }
+        else{
+            return \Yii::app()->session[$key];
+        }
+    }
+
+    /**
      * add the conf to main.php -> params
      * 'testStatus' => 1,
      */
@@ -451,6 +463,16 @@ trait YiiUtils {
 
     public static function startWith($str, $s){
         return strpos($str, $s) === 0;
+    }
+
+    public static function captcha(){
+        $builder = new PCaptcha\CaptchaBuilder;
+        $builder->build();
+        self::session('phrase', $builder->getPhrase());
+        #echo "<img src='{$builder->inline()}' />";
+        #echo self::session('phrase');
+        header('Content-type: image/jpeg');
+        $builder->output();
     }
 
     /**
