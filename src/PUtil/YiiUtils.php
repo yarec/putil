@@ -173,7 +173,7 @@ trait YiiUtils {
     public static function saveimg($imgname='img'){
         $name = '';
         if(isset($_FILES[$imgname])){
-            $pathroot=realpath(dirname(__FILE__)."/../../../");
+            $pathroot=$_SERVER['DOCUMENT_ROOT'];
             self::info("path: $pathroot");
             $dir = $pathroot.'/imgs/';
             $mode = 0777;
