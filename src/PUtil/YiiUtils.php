@@ -120,6 +120,22 @@ trait YiiUtils {
     }
 
     /**
+     * add the conf to main.php -> errors
+        'errors' => array(
+           'OK'        => 0,    # 正确返回
+           'AUTH'      => 1,    # 权限错误
+           'CODE'      => 2,    # 验证码错误
+           'VALID'     => 3,   # 表单验证错误
+           'SQL_ERR'   => 3000,
+           'PARAM_ERR' => 3001,
+        ),
+     */
+    public static function err($key){
+        $errs = self::param('errors');
+        return $errs[$key];
+    }
+
+    /**
      * add the conf to main.php -> params
      * 'testStatus' => 1,
      */
@@ -297,6 +313,9 @@ trait YiiUtils {
      *  fail: code($data, $err_code)
      */
     public static function code($arr=array(), $code=0){
+        if(is_string($code)){
+            $code = self::err($code);
+        }
         if($code==0){
             self::succ($arr, 'code', 0);
         }
@@ -310,6 +329,7 @@ trait YiiUtils {
      *  fail: ret($data, $err_code)
      *  more ex: 
      *       self::ret();
+     *       self::ret('AUTH');
      *       self::ret(1);
      *       self::ret(1,'some error message');
      *       self::ret(11,'some error message','errorfield');
@@ -318,7 +338,7 @@ trait YiiUtils {
     public static function ret($arr=array(), $code=0, $field=''){
         $a = $arr;
         $c = $code;
-        if(is_numeric($arr)){
+        if(is_numeric($arr) || is_string($arr)){
             $c = $arr;
             $a = array();
             if(is_array($code)){
