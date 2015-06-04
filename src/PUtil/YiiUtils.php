@@ -120,6 +120,22 @@ trait YiiUtils {
     }
 
     /**
+     * add the conf to main.php -> errors
+        'errors' => array(
+           'OK'        => 0,    # 正确返回
+           'AUTH'      => 1,    # 权限错误
+           'CODE'      => 2,    # 验证码错误
+           'VALID'     => 3,   # 表单验证错误
+           'SQL_ERR'   => 3000,
+           'PARAM_ERR' => 3001,
+        ),
+     */
+    public static function err($key){
+        $errs = self::param('errors');
+        return $errs[$key];
+    }
+
+    /**
      * add the conf to main.php -> params
      * 'testStatus' => 1,
      */
@@ -132,7 +148,7 @@ trait YiiUtils {
      */
     public static function req($key, $default=''){
         $item = self::get($key, $default);
-        if(empty($item)){
+        if($item == ''){
             $item = self::post($key, $default);
         }
         return $item;
@@ -142,7 +158,7 @@ trait YiiUtils {
      *  self::get('type', -1);    
      */
     public static function get($key, $default=''){
-        if(isset($_GET[$key]) && !empty($_GET[$key])){
+        if(isset($_GET[$key]) && $_GET[$key] != ''){
             return $_GET[$key];
         } else{
             return $default;
@@ -153,7 +169,7 @@ trait YiiUtils {
      *  self::post('type', -1);    
      */
     public static function post($key, $default=''){
-        if(isset($_POST[$key]) && !empty($_POST[$key])){
+        if(isset($_POST[$key]) && $_POST[$key] != ''){
             return $_POST[$key];
         } else{
             return $default;
@@ -173,7 +189,7 @@ trait YiiUtils {
     public static function saveimg($imgname='img'){
         $name = '';
         if(isset($_FILES[$imgname])){
-            $pathroot=realpath(dirname(__FILE__)."/../../../");
+            $pathroot=$_SERVER['DOCUMENT_ROOT'];
             self::info("path: $pathroot");
             $dir = $pathroot.'/imgs/';
             $mode = 0777;
@@ -297,6 +313,9 @@ trait YiiUtils {
      *  fail: code($data, $err_code)
      */
     public static function code($arr=array(), $code=0){
+        if(is_string($code)){
+            $code = self::err($code);
+        }
         if($code==0){
             self::succ($arr, 'code', 0);
         }
@@ -318,7 +337,7 @@ trait YiiUtils {
     public static function ret($arr=array(), $code=0, $field=''){
         $a = $arr;
         $c = $code;
-        if(is_numeric($arr)){
+        if(is_numeric($arr) || is_string($arr)){
             $c = $arr;
             $a = array();
             if(is_array($code)){
