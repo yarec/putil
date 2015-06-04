@@ -329,6 +329,7 @@ trait YiiUtils {
      *  fail: ret($data, $err_code)
      *  more ex: 
      *       self::ret();
+     *       self::ret('AUTH');
      *       self::ret(1);
      *       self::ret(1,'some error message');
      *       self::ret(11,'some error message','errorfield');
