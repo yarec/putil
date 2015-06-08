@@ -542,6 +542,8 @@ trait YiiUtils {
         $mail->Body    = $content;
         $mail->AltBody = $content;
 
+        $mail->CharSet = "utf-8";
+
         if(!$mail->send()) {
             return $mail->ErrorInfo;
         } else {
