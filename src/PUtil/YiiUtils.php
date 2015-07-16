@@ -578,6 +578,7 @@ trait YiiUtils {
 
     function rad($d) {
         define('PI',M_PI);
+        define('EARTH_RADIUS',6371.3);
         return $d*PI/180.0;
     }
     /// <summary>
@@ -587,10 +588,8 @@ trait YiiUtils {
     /// <param name="distance">距离（千米）</param>
     /// <param name="latDeviation">纬度偏差</param>
     /// <param name="lngDeviation">经度偏差</param>
-    function GetMaxDeviation($lat, $distance, $latDeviation, $lngDeviation) {
-        define('PI',M_PI);
-        define('EARTH_RADIUS',6371.3);
-        $radLat1 = rad(lat);
+    function getMaxDeviation($lat, $distance) {
+        $radLat1 = $this->rad($lat);
         //另一种根据纬度计算地球半径的写法，因为极地半径和赤道半径有偏差。
         //EARTH_RADIUS = 6356.9088 + 20.9212 * (90.0 - lat) / 90.0;
         $latRatio = 180 / (PI * EARTH_RADIUS); //经线上1公里对应纬度偏差
