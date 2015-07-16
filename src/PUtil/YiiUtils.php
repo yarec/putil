@@ -550,4 +550,53 @@ trait YiiUtils {
             return 0;
         }
     }
+
+    /**
+     * 计算两个坐标之间的距离(米)
+     * @param float $fP1Lat 起点(纬度)
+     * @param float $fP1Lon 起点(经度)
+     * @param float $fP2Lat 终点(纬度)
+     * @param float $fP2Lon 终点(经度)
+     * @return int
+     */
+    function distanceBetween($fP1Lat, $fP1Lon, $fP2Lat, $fP2Lon){
+        $fEARTH_RADIUS = 6378137;
+        //角度换算成弧度
+        $fRadLon1 = deg2rad($fP1Lon);
+        $fRadLon2 = deg2rad($fP2Lon);
+        $fRadLat1 = deg2rad($fP1Lat);
+        $fRadLat2 = deg2rad($fP2Lat);
+        //计算经纬度的差值
+        $fD1 = abs($fRadLat1 - $fRadLat2);
+        $fD2 = abs($fRadLon1 - $fRadLon2);
+        //距离计算
+        $fP = pow(sin($fD1/2), 2) +
+            cos($fRadLat1) * cos($fRadLat2) * pow(sin($fD2/2), 2);
+        return intval($fEARTH_RADIUS * 2 * asin(sqrt($fP)) + 0.5);
+    }
+
+
+    function rad($d) {
+        define('PI',M_PI);
+        return $d*PI/180.0;
+    }
+    /// <summary>
+    /// 根据距离计算某点角度偏差
+    /// </summary>
+    /// <param name="lat">纬度</param>
+    /// <param name="distance">距离（千米）</param>
+    /// <param name="latDeviation">纬度偏差</param>
+    /// <param name="lngDeviation">经度偏差</param>
+    function GetMaxDeviation($lat, $distance, $latDeviation, $lngDeviation) {
+        define('PI',M_PI);
+        define('EARTH_RADIUS',6371.3);
+        $radLat1 = rad(lat);
+        //另一种根据纬度计算地球半径的写法，因为极地半径和赤道半径有偏差。
+        //EARTH_RADIUS = 6356.9088 + 20.9212 * (90.0 - lat) / 90.0;
+        $latRatio = 180 / (PI * EARTH_RADIUS); //经线上1公里对应纬度偏差
+        $lngRatio = $latRatio / cos($radLat1);//纬线上1公里对应经度偏差
+        $latDeviation = $distance * $latRatio;
+        $lngDeviation = $distance * $lngRatio;
+        return array($latDeviation, $lngDeviation);
+    }
 }
